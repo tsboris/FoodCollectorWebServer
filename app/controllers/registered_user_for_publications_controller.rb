@@ -1,16 +1,18 @@
 class RegisteredUserForPublicationsController < ApplicationController
-  before_action :set_registered_user_for_publication, only: [:show, :edit, :update, :destroy]
+  before_action :set_registered_user_for_publication, only: [ :edit, :update, :destroy]
 
-  # POST /registered_user_for_publications.json
+  
   def create
     registered_user_for_publication = RegisteredUserForPublication.new(registered_user_for_publication_params)
     @registered_user_for_publication.save!
-    render json: "OK"
   rescue
     render json: registered_user_for_publication.errors, status: :unprocessable_entity 
   end
 
-  
+  def show
+    render json: RegisteredUserForPublication.where( publication_id:registered_user_for_publication_params[:publication_id], publication_version: registered_user_for_publication_params[:publication_version] )
+  end
+
 private
   # Use callbacks to share common setup or constraints between actions.
   def set_registered_user_for_publication
