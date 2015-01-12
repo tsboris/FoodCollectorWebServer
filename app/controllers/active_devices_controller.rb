@@ -1,5 +1,5 @@
 class ActiveDevicesController < ApplicationController
-  before_action :set_active_device, only: [:show, :edit, :update, :destroy]
+  before_action :set_active_device, only: [:show, :edit,  :destroy]
 
   # GET /active_devices
   # GET /active_devices.json
@@ -21,20 +21,25 @@ class ActiveDevicesController < ApplicationController
     render json: active_device.errors, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /active_devices/1
-  # PATCH/PUT /active_devices/1.json
+  
   def update
-      active_device = Active_device.update!(active_device_params)
+      active_device = ActiveDevice.find_by_dev_uuid(active_device_params[:dev_uuid])
+      active_device.last_location_latitude =  active_device_params[:last_location_latitude] unless active_device_params[:last_location_latitude].blank?
+      active_device.last_location_longitude = active_device_params[:last_location_longitude] unless active_device_params[:last_location_longitude].blank? 
+      active_device.is_ios = active_device_params[:is_ios] unless active_device_params[:is_ios].blank? 
+      active_device.remote_notification_token = active_device_params[:remote_notification_token]unless active_device_params[:remote_notification_token].blank? 
+     
+      active_device.save!
       render json: active_device
   rescue
-      render json: active_device.errors, status: :unprocessable_entity
+      render json: error, status: :unprocessable_entity
   end
 
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_active_device
-      @active_device = ActiveDevice.find(params[:id])
+      @active_device = ActiveDevice.where(dev_uuid: active_device_params[:dev_uuid])
     end
 
   # DELETE /active_devices/1
@@ -48,4 +53,5 @@ class ActiveDevicesController < ApplicationController
     def active_device_params
       params.require(:active_device).permit(:remote_notification_token, :is_ios, :last_location_latitude, :last_location_longitude, :dev_uuid)
     end
+
 end
