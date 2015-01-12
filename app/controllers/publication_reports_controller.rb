@@ -1,24 +1,16 @@
   class PublicationReportsController < ApplicationController
   before_action :set_publication_report, only: [:edit, :update, :destroy]
 
-  def show
-   render json: PublicationReport.where( publication_id:publication_report_params[:publication_id], publication_version: publication_report_params[:publication_version] )
+  def index
+    render json: PublicationReport.where( publication_id: params[:publication_id], publication_version: params[:publication_version] )
   end
 
   def create
     publication_report = PublicationReport.new(publication_report_params)
-    @publication_report.save!
-    render json: "OK"
+    publication_report.save!
+    render json:  publication_report
   rescue
-    render json: "errors", status: :unprocessable_entity 
-  end
-
- 
-  def update
-    @publication_report.update!(publication_report_params)
-    render json: "OK"
-  rescue
-    render json: @publication_report.errors, status: :unprocessable_entity 
+    render json: publication_report.errors, status: :unprocessable_entity 
   end
 
 private
