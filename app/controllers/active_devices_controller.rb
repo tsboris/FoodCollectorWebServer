@@ -30,16 +30,16 @@ class ActiveDevicesController < ApplicationController
       active_device.remote_notification_token = active_device_params[:remote_notification_token]unless active_device_params[:remote_notification_token].blank? 
      
       active_device.save!
-      render json: active_device
+      render json: "OK"
   rescue
-      render json: error, status: :unprocessable_entity
+      render json: "Error"
   end
 
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_active_device
-      @active_device = ActiveDevice.where(dev_uuid: active_device_params[:dev_uuid])
+      @active_device = ActiveDevice.find_by_dev_uuid(active_device_params[:dev_uuid])
     end
 
   # DELETE /active_devices/1
