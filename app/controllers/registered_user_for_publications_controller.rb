@@ -1,22 +1,22 @@
 class RegisteredUserForPublicationsController < ApplicationController
-  before_action :set_registered_user_for_publication, only: [ :edit, :update, :destroy]
-
   
   def create
     registered_user_for_publication = RegisteredUserForPublication.new(registered_user_for_publication_params)
-    @registered_user_for_publication.save!
+    registered_user_for_publication.save!
+    render json: registered_user_for_publication
   rescue
     render json: registered_user_for_publication.errors, status: :unprocessable_entity 
+    #render :json => {:error => "cannot create record"}.to_json, :status => 400
   end
 
-  def show
-    render json: RegisteredUserForPublication.where( publication_id:registered_user_for_publication_params[:publication_id], publication_version: registered_user_for_publication_params[:publication_version] )
+  def index
+    render json: RegisteredUserForPublication.where( publication_id: params[:publication_id], publication_version: params[:publication_version] )
   end
 
 private
   # Use callbacks to share common setup or constraints between actions.
   def set_registered_user_for_publication
-    @registered_user_for_publication = RegisteredUserForPublication.find(params[:id])
+    #@registered_user_for_publication = RegisteredUserForPublication.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
