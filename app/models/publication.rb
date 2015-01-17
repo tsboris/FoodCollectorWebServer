@@ -22,6 +22,6 @@ class Publication < ActiveRecord::Base
   end
 
   def default_values
-    self.is_on_air||=true
+    self.is_on_air ||= true if self.is_on_air.nil?
   end
 end
