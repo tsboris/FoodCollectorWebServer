@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150105210414) do
+ActiveRecord::Schema.define(version: 20150119195310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20150105210414) do
     t.decimal  "longitude",                          null: false
     t.decimal  "starting_date"
     t.decimal  "ending_date",                        null: false
-    t.string   "contact_info",           limit: 100, null: false
+    t.string   "contact_info",           limit: 100
     t.boolean  "is_on_air"
     t.string   "active_device_dev_uuid", limit: 64,  null: false
     t.string   "photo_url"
