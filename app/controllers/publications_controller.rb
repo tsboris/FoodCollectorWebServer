@@ -2,7 +2,7 @@ class PublicationsController < ApplicationController
   before_action :set_publication, only: [:update, :destroy]
 
   def index
-    render json: Publication.all
+    render json: Publication.where( is_on_air: true)
   end
 
   def create
