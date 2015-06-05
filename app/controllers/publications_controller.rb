@@ -6,7 +6,7 @@ class PublicationsController < ApplicationController
   end
 
   def create
-		publication = Publication.new(publication_params)
+    publication = Publication.new(publication_params)
     publication.save!
     render json: publication, only: [:id, :version]
   rescue
@@ -24,7 +24,12 @@ class PublicationsController < ApplicationController
     @publication.destroy
     render json: "OK"
   end
-
+  
+  def show
+    @publication = Publication.find(params[:id])
+    render json: @publication
+  end
+  
 private
   def set_publication
     @publication = Publication.find(params[:id])
